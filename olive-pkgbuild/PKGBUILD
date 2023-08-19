@@ -1,0 +1,66 @@
+# Maintainer: Quack
+
+_pkgname=olive
+pkgname=$_pkgname-editor
+pkgver=continuous.r2698.g442038ca6
+pkgrel=1
+arch=('x86_64')
+pkgdesc="Free non-linear video editor"
+url="https://www.olivevideoeditor.org/"
+license=('GPL3')
+depends=(
+"${MINGW_PACKAGE_PREFIX}-ffmpeg"
+"${MINGW_PACKAGE_PREFIX}-openimageio"
+#'${MINGW_PACKAGE_PREFIX}-opentimelineio0.14'
+"${MINGW_PACKAGE_PREFIX}-portaudio"
+)
+
+makedepends=(
+"${MINGW_PACKAGE_PREFIX}-cmake"
+"git"
+"${MINGW_PACKAGE_PREFIX}-ninja"
+"${MINGW_PACKAGE_PREFIX}-qt5-svg"
+"${MINGW_PACKAGE_PREFIX}-qt5-tools"
+)
+
+provides=('olive')
+conflicts=('olive')
+source=('git+https://github.com/olive-editor/olive.git#branch=ts-timeline'
+        'git+https://github.com/olive-editor/KDDockWidgets.git'
+	'fix-build.patch')
+sha512sums=('SKIP'
+            'SKIP'
+    	    'SKIP')
+
+pkgver() {
+  cd $_pkgname
+  git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare(){
+  patch -d $_pkgname -Np1 -i "${srcdir}/fix-build.patch"
+  
+  cd $_pkgname
+  git submodule init
+  git config submodule.ext/KDDockWidgets.url "$srcdir"/KDDockWidgets
+  git -c protocol.file.allow=always submodule update
+
+
+}
+
+build() {
+  cd $_pkgname
+  cmake -GNinja \
+        -Bbuild \
+        -DCMAKE_BUILD_TYPE=RelWithDebInfo \
+        -DCMAKE_INSTALL_PREFIX=/usr 
+        #-DOTIO_DEPS_INCLUDE_DIR=/usr/include/opentimelineio #maybe use pip for this.
+  ninja -C build/
+}
+
+package() {
+  mkdir -p "${pkgdir}/package"
+  cp $_pkgname/build/app/olive-editor.exe "${pkgdir}/package/"
+  cp $(ldd "${pkgdir}/package/olive-editor.exe" | grep -i mingw64 | awk '{print $3}') "${pkgdir}/package"
+  windeployqt --no-angle "${pkgdir}/package/olive-editor.exe"
+}

@@ -1,0 +1,101 @@
+diff --git a/app/audio/audiovisualwaveform.cpp b/app/audio/audiovisualwaveform.cpp
+index fef2001f6..88407129c 100644
+--- a/app/audio/audiovisualwaveform.cpp
++++ b/app/audio/audiovisualwaveform.cpp
+@@ -20,6 +20,7 @@
+ 
+ #include "audiovisualwaveform.h"
+ 
++#include <cmath>
+ #include <QDebug>
+ #include <QtGlobal>
+ 
+diff --git a/app/node/distort/transform/transformdistortnode.cpp b/app/node/distort/transform/transformdistortnode.cpp
+index 3d1d3026e..017ab3b85 100644
+--- a/app/node/distort/transform/transformdistortnode.cpp
++++ b/app/node/distort/transform/transformdistortnode.cpp
+@@ -19,7 +19,9 @@
+ ***/
+ 
+ #include "transformdistortnode.h"
++#define _USE_MATH_DEFINES
+ 
++#include <cmath>
+ #include <QGuiApplication>
+ 
+ namespace olive {
+diff --git a/app/node/filter/mosaic/mosaicfilternode.cpp b/app/node/filter/mosaic/mosaicfilternode.cpp
+index 6f7161ca9..9a592c906 100644
+--- a/app/node/filter/mosaic/mosaicfilternode.cpp
++++ b/app/node/filter/mosaic/mosaicfilternode.cpp
+@@ -20,6 +20,8 @@
+ 
+ #include "mosaicfilternode.h"
+ 
++#include <cmath>
++
+ namespace olive {
+ 
+ const QString MosaicFilterNode::kTextureInput = QStringLiteral("tex_in");
+diff --git a/app/node/generator/tone/tonegenerator.cpp b/app/node/generator/tone/tonegenerator.cpp
+index bfd242f2a..9ca703ef0 100644
+--- a/app/node/generator/tone/tonegenerator.cpp
++++ b/app/node/generator/tone/tonegenerator.cpp
+@@ -20,6 +20,7 @@
+ 
+ #include "tonegenerator.h"
+ 
++#include <cmath>
+ #include <QElapsedTimer>
+ 
+ #include "widget/slider/floatslider.h"
+diff --git a/app/node/math/math/math.cpp b/app/node/math/math/math.cpp
+index 08a719068..ec54241e1 100644
+--- a/app/node/math/math/math.cpp
++++ b/app/node/math/math/math.cpp
+@@ -18,6 +18,7 @@
+ 
+ ***/
+ 
++#include <cmath>
+ #include "math.h"
+ 
+ #include "mathfunctions.h"
+diff --git a/app/node/math/math/mathfunctions.cpp b/app/node/math/math/mathfunctions.cpp
+index eb6421049..1c2f88192 100644
+--- a/app/node/math/math/mathfunctions.cpp
++++ b/app/node/math/math/mathfunctions.cpp
+@@ -17,6 +17,7 @@
+   along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ 
+ ***/
++#include <cmath>
+ 
+ #include "mathfunctions.h"
+ 
+diff --git a/app/node/math/trigonometry/trigonometry.cpp b/app/node/math/trigonometry/trigonometry.cpp
+index 437eb8d34..341a21474 100644
+--- a/app/node/math/trigonometry/trigonometry.cpp
++++ b/app/node/math/trigonometry/trigonometry.cpp
+@@ -18,6 +18,8 @@
+ 
+ ***/
+ 
++#include <cmath>
++
+ #include "trigonometry.h"
+ 
+ namespace olive {
+diff --git a/lib/olive/src/util/color.cpp b/lib/olive/src/util/color.cpp
+index 96a826ee1..df7246afe 100644
+--- a/lib/olive/src/util/color.cpp
++++ b/lib/olive/src/util/color.cpp
+@@ -21,6 +21,8 @@
+ #include "util/color.h"
+ 
+ #include <cmath>
++
++#define IMATH_HALF_NO_LOOKUP_TABLE
+ #include <Imath/half.h>
+ #include <math.h>
+ #include <stdint.h>
